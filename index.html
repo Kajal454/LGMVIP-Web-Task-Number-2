@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>React App</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      
+      body {
+        background-color: #e2204aa5;
+      }
+    
+      h2 {
+        margin-top: 16px;
+        font-size: 41px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 10%;
+        background-color: #222831;
+        box-shadow: 0px 10px 15px 0px rgba(210, 142, 142, 0.5);
+      }
+      
+      .logo-text img {
+        height: 61px;
+        width: 160px;
+        position: absolute;
+        margin-top: -17px;
+        margin-left: -126px;
+        border-radius: 14px;
+      }
+    
+      .logo-text a,
+      .cta {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.4em;
+        font-weight: 500;
+        color: #86a495;
+        text-decoration: none;
+      }
+      
+      .cta {
+        padding: 9px 25px;
+        margin-right: -126px;
+        background-color: #b50000;
+        border: none;
+        border-radius: 21px;
+        font-weight: 900;
+        cursor: pointer;
+        transition: background-color 0.3s ease 0s;
+      }
+      
+      .cta:hover {
+        background-color: rgba(64, 255, 16, 0.8);
+      }
+      
+      .cards {
+        display: table;
+      }
+      
+      .card {
+        font-family: "Candara", sans-serif;
+        width: 340px;
+        overflow: hidden;
+        background: #7cc5cce3;
+        box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.8);
+        display: inline-block;
+        flex-direction: column;
+        border-radius: 2rem;
+        margin: 2rem;
+      }
+      
+      .profile-image img {
+        z-index: 1;
+        width: 120px;
+        height: 120px;
+        position: relative;
+        margin-top: 25px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 100px;
+        border: 10px solid rgb(241, 168, 168);
+        transition-duration: 0.4s;
+        transition-property: transform;
+      }
+      
+      .profile-image img:hover {
+        transform: scale(1.1);
+      }
+      
+      .card-content h3,
+      .card-content h2 {
+        font-size: 25px;
+        text-align: center;
+        margin-bottom: 11px;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+ 
+
+
+  <header>
+      <div class="logo-text">
+          <img src="https://letsgrowmore.in/wp-content/uploads/2021/05/Artboard-1-1-removebg-preview-e1645900071758.jpg" alt="">
+          <a href="#"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kajal Shingavi</a>
+      </div>
+      <button class="cta" id="nav-btn" href="#">GET USERS</button>
+  </header>
+  <center><h2> USERS DATA </h2><br>
+      <section class="cards" id="cards">
+      </section>
+  </center>
+  
+
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+    <script>
+      let box = document.getElementById("cards");
+
+let API = async () => {
+  let response = await fetch("https://reqres.in/api/users?page=1");
+  let file = await response.json();
+  let info = file.data
+    .map((element) => {
+      return `<div class="card">
+        <div class="profile-image">
+            <img src="${element.avatar}" alt="">
+        </div>
+        <div class="card-content">
+            <h3>${element.first_name} ${element.last_name}</h3>
+            <h2>${element.email}</h2>
+            <h2>User ID: ${element.id}</h2>
+        </div>
+    </div>`;
+    })
+    .join("");
+  cards.innerHTML = info;
+};
+
+let navBtn = document.getElementById("nav-btn");
+navBtn.addEventListener("click", () => {
+  cards.innerHTML = `<h1 class='load'>Fetching and Loading Users Data .........</h1>`;
+  setTimeout(() => {
+    API();
+  }, 2500);
+});
+    </script>
+  </body>
+</html>
